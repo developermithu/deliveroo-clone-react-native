@@ -17,7 +17,7 @@ export default {
     },
     {
       name: "price",
-      title: "Price of dish in GBP",
+      title: "Price of dish in TK",
       type: "number",
       validation: (Rule) => Rule.required(),
     },
