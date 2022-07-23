@@ -1,17 +1,42 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurentCard from "./RestaurentCard";
+import sanityClient from "../sanity";
 
-export default function FeaturedRow({ id, title, description }) {
+export default function FeaturedRow({ id, name, short_description }) {
+  const [restaurents, setRestaurents] = useState([]);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "featured" && _id == $id ] {
+          ...,
+          restaurents[] -> {
+            ...,
+            dishes[] ->,
+            category -> {
+              name
+            }
+          },
+        }[0]`,
+        { id }
+      )
+      .then((data) => {
+        setRestaurents(data?.restaurents);
+      });
+  }, [id]);
+
+  // console.log(restaurents);
+
   return (
     <View>
       <View className="flex-row items-center justify-between mt-4 px-4">
-        <Text className="font-bold text-lg">{title}</Text>
+        <Text className="font-bold text-lg">{name}</Text>
         <ArrowRightIcon color="#00ccbc" size={20} />
       </View>
 
-      <Text className="text-gray-500 text-xs px-4">{description}</Text>
+      <Text className="text-gray-500 text-xs px-4">{short_description}</Text>
 
       {/* Scroll view */}
       <ScrollView
@@ -21,42 +46,22 @@ export default function FeaturedRow({ id, title, description }) {
         showsHorizontalScrollIndicator={false}
       >
         {/* restaurent cards */}
-        <RestaurentCard
-          id={123}
-          imgUrl="https://images.squarespace-cdn.com/content/v1/5c5c3833840b161566b02a76/1563210949270-3H44AZR3VF8BYPTCVVNT/WBC_0319.jpg?format=1500w"
-          title="Rosmolai"
-          rating={4.5}
-          genre="chinese"
-          address="3000 Sylhet"
-          short_description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat, odio?"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurentCard
-          id={123}
-          imgUrl="https://images.squarespace-cdn.com/content/v1/5c5c3833840b161566b02a76/1563210949270-3H44AZR3VF8BYPTCVVNT/WBC_0319.jpg?format=1500w"
-          title="Rosmolai"
-          rating={4.5}
-          genre="chinese"
-          address="3000 Sylhet"
-          short_description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat, odio?"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurentCard
-          id={123}
-          imgUrl="https://images.squarespace-cdn.com/content/v1/5c5c3833840b161566b02a76/1563210949270-3H44AZR3VF8BYPTCVVNT/WBC_0319.jpg?format=1500w"
-          title="Rosmolai"
-          rating={4.5}
-          genre="chinese"
-          address="3000 Sylhet"
-          short_description="Lorem ipsum dolor sit, amet consectetur adipisicing elit. Placeat, odio?"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
+
+        {restaurents.map((restaurent) => (
+          <RestaurentCard
+            key={restaurent._id}
+            id={restaurent._id}
+            imgUrl={restaurent.image}
+            name={restaurent.name}
+            rating={restaurent.rating}
+            category={restaurent.category?.name}
+            address={restaurent.address}
+            short_description={restaurent.short_description}
+            dishes={restaurent.dishes}
+            long={restaurent.long}
+            lat={restaurent.lat}
+          />
+        ))}
       </ScrollView>
     </View>
   );

@@ -1,11 +1,11 @@
 export default {
   name: "featured",
-  title: "Featured menu categories",
+  title: "Featured Category",
   type: "document",
   fields: [
     {
       name: "name",
-      title: "Featured category name",
+      title: "Name",
       type: "string",
       validation: (Rule) => Rule.required(),
     },

@@ -1,6 +1,6 @@
 export default {
   name: "dish",
-  title: "Dish",
+  title: "Dishes",
   type: "document",
   fields: [
     {

@@ -6,25 +6,45 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useLayoutEffect } from "react";
 import {
   AdjustmentsIcon,
   ChevronDownIcon,
   SearchIcon,
   UserIcon,
 } from "react-native-heroicons/outline";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Categories from "../components/Categories";
 import FeaturedRow from "../components/FeaturedRow";
+import sanityClient from "../sanity";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
+  const [featuredCategories, setFeaturedCategories] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, []);
+
+  useEffect(() => {
+    sanityClient
+      .fetch(
+        `*[_type == "featured"]{
+      ...,
+       restaurents[] => {
+         ...,
+       }
+    }
+    `
+      )
+      .then((data) => {
+        setFeaturedCategories(data);
+      });
+  }, []);
+
+  // console.log(featuredCategories);
 
   return (
     <SafeAreaView className="bg-white px-4 pt-10">
@@ -66,28 +86,20 @@ const HomeScreen = () => {
       <ScrollView
         className="bg-gray-100"
         contentContainerStyle={{ paddingBottom: 100 }}
+        showsVerticalScrollIndicator={false}
       >
         {/* categories */}
         <Categories />
 
         {/* feaured row */}
-        <FeaturedRow
-          id="1"
-          title="Featured"
-          description="paid placements from our partners"
-        />
-        {/* discounts */}
-        <FeaturedRow
-          id="12"
-          title="Tasty discounts"
-          description="Lorem, ipsum dolor sit amet consectetur"
-        />
-        {/* offers near */}
-        <FeaturedRow
-          id="123"
-          title="Offers near you"
-          description="Why not support your local restaurent"
-        />
+        {featuredCategories.map((featuredCategory) => (
+          <FeaturedRow
+            key={featuredCategory._id}
+            id={featuredCategory._id}
+            name={featuredCategory.name}
+            short_description={featuredCategory.short_description}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

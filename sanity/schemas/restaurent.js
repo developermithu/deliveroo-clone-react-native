@@ -1,6 +1,6 @@
 export default {
   name: "restaurent",
-  title: "Restaurent",
+  title: "Restaurents",
   type: "document",
   fields: [
     {
@@ -16,7 +16,7 @@ export default {
       validation: (Rule) => Rule.max(200),
     },
     {
-      name: "short_deimagescription",
+      name: "image",
       title: "Image of the restaurent",
       type: "image",
       options: {
@@ -50,7 +50,7 @@ export default {
           .error("Please enter a value beetwen 1 and 5"),
     },
     {
-      name: "type",
+      name: "category",
       title: "Category",
       validation: (Rule) => Rule.required(),
       type: "reference",
