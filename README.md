@@ -2,6 +2,8 @@
 
 ```
  expo start
+ expo login 
+ expo publish
 ```
 
 ### Customize Sanity
@@ -19,4 +21,6 @@
 - react-native-heroicons
 - next-sanity
 - @sanity/image-url
+- react-native-animatable
+- react-native-progress
 
