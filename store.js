@@ -1,8 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit'
-import basketSlice from './features/basketSlice'
+import { configureStore } from "@reduxjs/toolkit";
+import basketSlice from "./features/basketSlice";
+import restaurentSlice from "./features/restaurentSlice";
 
 export default configureStore({
   reducer: {
-    basket: basketSlice
+    basket: basketSlice,
+    restaurent: restaurentSlice,
   },
-})
+});
