@@ -1,10 +1,11 @@
 {
   "expo": {
-    "name": "deliveroo-clone",
-    "slug": "deliveroo-clone",
+    "name": "FDelivery",
+    "slug": "FDelivery",
+    "description": "FDelivery is a food delivery app which is developed by Mithu",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/app_icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",

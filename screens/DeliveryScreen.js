@@ -26,13 +26,13 @@ export default function DeliveryScreen() {
       </View>
 
       <View className="mx-5 p-4 bg-white rounded-md space-y-2 z-50">
-        <View className="flex-row justify-between">
+        <View className="flex-row items-center justify-between">
           <View>
             <Text className="text-lg text-gray-400">Estimated Arrival</Text>
             <Text className="text-3xl font-extrabold">20-30 Minutes</Text>
           </View>
           <Image
-            source={require("../assets/deliverygirl.png")}
+            source={require("../assets/delivery.gif")}
             className="h-16 w-16"
           />
         </View>
